@@ -10,7 +10,7 @@ The results obtained highlight the strengths and limitations of each approach. T
 
 ## Data Availability
 The dataset used in this project is publicly available from the Store Sales - Time Series Forecasting competition on Kaggle. You can access the dataset and competition details via the following link:
-[Kaggle Store Sales - Time Series Forecasting](https://www.kaggle.com/competitions/store-sales-time-series-forecasting)
+[Kaggle Store Sales - Time Series Forecasting](https://www.kaggle.com/competitions/store-sales-time-series-forecasting).
 
 
 ## Requirements
