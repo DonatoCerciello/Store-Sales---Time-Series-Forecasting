@@ -483,8 +483,14 @@ if args.type_output == 'single':
         stores = train_data[fam].columns[train_data[fam].columns.str.contains('sales_')]
         df = pd.DataFrame(index=train_data[fam].iloc[-args.horizon:].index, columns=stores)
         df_kaggle = pd.DataFrame(index=test_data[fam].index, columns=stores)
-        stores = [int(store.split('_')[-1]) for store in stores]
+        if args.type_data == 'family':
+            stores = [int(store.split('_')[-1]) for store in stores]
+        else:
+            stores = [str(store.split('_')[-1]) for store in stores]
         for sto in stores:
+            if args.type_data == 'store':
+                if '/' in sto:
+                    sto = sto.replace('/', '_')
             scaler_sales, scaler_promo, scaler_gas_price, train_loader, val_loader, test_loader, cond_kaggle = split(train_data, test_data, args, fam, sto)
             model_args = {
                 "num_classes": 1,  # Number of nodes (number of shops)
@@ -530,20 +536,12 @@ if args.type_output == 'single':
             predictions = predictions[:, 0]
             real = real[:, 0]
 
-            # Plot
-            plt.plot(real, color='blue', label='Real')
-            plt.plot(predictions, color='red', label='Predicted')
-            plt.title('Store: ' + str(sto) + ' Family: ' + str(fam))
-            plt.xlabel('Validation Days')
-            plt.ylabel('Unit Sales')
-            plt.legend()
-            plt.show()
-
             # Save predictions
             df[f'sales_{sto}'] = predictions[-args.horizon:]
             
             if args.XAI:
                 # SHAP
+                print("SHAP time")
                 shap.initjs()
                 for i, batch in enumerate(train_loader):
                     if i == 0:
@@ -557,29 +555,39 @@ if args.type_output == 'single':
                     else:
                         val = torch.cat([val, torch.cat([batch[0], batch[1], batch[2]], dim=-1).to(device)], dim=0)
                 
-                torch.backends.cudnn.enabled = False
                 explainer = shap.GradientExplainer(model_best, input)
                 shap_values = explainer.shap_values(val)
 
                 shap_check = shap_values.mean(axis=0).squeeze(-1)  # From (B, T, input) -> (T, input)
                 val_numpy = val.cpu().numpy().mean(axis=0)  # (T, input)
+                # summary plot
                 shap.summary_plot(shap_check, val_numpy, feature_names=["Sales", "Promo", "oil", "Holiday", "SinWeek", "CosWeek", "SinMonth", "CosMonth"])
+                plt.savefig(model_save_dir + f"/shap_summary_{sto}.png")
+                plt.close()
+
                 # violin plot
                 shap.violin_plot(shap_check, val_numpy, feature_names=["Sales", "Promo", "oil", "Holiday", "SinWeek", "CosWeek", "SinMonth", "CosMonth"], plot_type="violin")
+                plt.savefig(model_save_dir + f"/shap_violin_{sto}.png")
+                plt.close()
 
                 feature_names = ["Sales", "Promo", "oil", "Holiday", "SinWeek", "CosWeek", "SinMonth", "CosMonth"]
 
                 # Dependence plot
                 for feature in feature_names:
                     shap.dependence_plot(feature, shap_check, val_numpy, feature_names=feature_names)
-                    plt.show()
+                    plt.savefig(model_save_dir + f"/shap_dependence_{feature}_{sto}.png")
+                    plt.close()
                 
                 # shap bar plot
                 shap.summary_plot(shap_check, val_numpy, feature_names=feature_names, plot_type="bar")
+                plt.savefig(model_save_dir + f"/shap_bar_{sto}.png")
+                plt.close()
                         
                 # stacked force plot
                 expected_value = model(val).mean().item() 
                 shap.plots.force(expected_value, shap_check, feature_names=feature_names)
+                plt.savefig(model_save_dir + f"/shap_force_{sto}.png")
+                plt.close()
 
                 # heatmap
                 plt.figure(figsize=(12, 6))
@@ -587,7 +595,8 @@ if args.type_output == 'single':
                 plt.xlabel("Timesteps")
                 plt.ylabel("Features")
                 plt.title("SHAP Values Heatmap")
-                plt.show()
+                plt.savefig(model_save_dir + f"/shap_heatmap_{sto}.png")
+                plt.close()
 
             if args.kaggle:
                 predictions = predict_kaggle(
@@ -657,17 +666,6 @@ else:
     
         predictions = scaler_sales.inverse_transform(predictions.reshape(-1, model_args['num_classes'])).reshape(predictions.shape)
         real = scaler_sales.inverse_transform(real.reshape(-1, model_args['num_classes'])).reshape(real.shape)
-
-        # Plot
-        sto = 10
-        for sto in range(10):
-            plt.plot(real[:, 0, sto], color = 'blue', label = 'Real')
-            plt.plot(predictions[:, 0, sto], color = 'red', label = 'Predicted')
-            plt.title('Store: ' + str(sto) + ' Family: ' + str(fam))
-            plt.xlabel('Validation Days')
-            plt.ylabel('Unit Sales')
-            plt.legend()
-            plt.show()
     
         stores = train_data[fam].columns[train_data[fam].columns.str.contains('sales_')]
         df = pd.DataFrame(predictions[-args.horizon:, 0], columns=stores, index=train_data[fam][-args.horizon:].index)
