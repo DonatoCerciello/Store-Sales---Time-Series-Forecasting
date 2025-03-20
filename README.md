@@ -87,3 +87,14 @@ python RNN.py --type_data store --model_type LSTM --XAI True --horizon 16 --batc
 ```sh
 python STID.py --type_data store --STL_check True --input_length 120 --horizon 16 --batch_size 32 --num_epochs 1000 --learning_rate 1e-4 --device cuda:2
 ```
+
+## Citation
+@misc{shao2022spatialtemporalidentitysimpleeffective,
+      title={Spatial-Temporal Identity: A Simple yet Effective Baseline for Multivariate Time Series Forecasting}, 
+      author={Zezhi Shao and Zhao Zhang and Fei Wang and Wei Wei and Yongjun Xu},
+      year={2022},
+      eprint={2208.05233},
+      archivePrefix={arXiv},
+      primaryClass={cs.LG},
+      url={https://arxiv.org/abs/2208.05233}, 
+}
