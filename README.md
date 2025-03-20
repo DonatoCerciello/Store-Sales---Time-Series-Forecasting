@@ -3,7 +3,7 @@
 Author: Cerciello Donato
 
 ## Abstract
-Time series forecasting plays a crucial role in various fields, enabling companies to make informed decisions based on data and optimize their operations. This project addresses the Store Sales - Time Series Forecasting task by implementing a hybrid approach that integrates statistical, machine learning, and deep learning models. Specifically, VAR, ARIMA, SARIMA, and SARIMAX are applied for conventional time series modeling, while Random Forest, XGBoost and Linear Regressor are utilized for machine learning-based forecasting. Furthermore, deep learning methods such as Long Short-Term Memory (LSTM), Gated Recurrent Unit (GRU) and the Spatio-Temporal Informed Dynamic (STID) models are explored. Finally, to improve interpretability, SHAP (SHapley Additive exPlanations) is used to analyze the features importance. Furthermore, a feature masking analysis is conducted for the STID model to assess how conditions with varying levels of similarity impact forecast performance.
+Time series forecasting plays a crucial role in various fields, enabling companies to make informed decisions based on data and optimize their operations. This project addresses the Store Sales - Time Series Forecasting task by implementing a hybrid approach that integrates statistical, machine learning, and deep learning models. Specifically, VAR, ARIMA, SARIMA, and SARIMAX are applied for conventional time series modeling, while Random Forest, XGBoost and Linear Regressor are utilized for machine learning-based forecasting. Furthermore, deep learning methods such as Long Short-Term Memory (LSTM), Gated Recurrent Unit (GRU) and the Spatio-Temporal Informed Dynamic ([STID](https://arxiv.org/abs/2208.05233)) models are explored. Finally, to improve interpretability, SHAP (SHapley Additive exPlanations) is used to analyze the features importance. Furthermore, a feature masking analysis is conducted for the STID model to assess how conditions with varying levels of similarity impact forecast performance.
 
 The results obtained highlight the strengths and limitations of each approach. Traditional statistical models demonstrate effectiveness in short-term forecasting, but struggle with complex seasonal patterns. In contrast, machine learning models exhibit superior generalization capabilities, while deep learning models, particularly STID, excel at capturing spatio-temporal dependencies. Explainability analysis proves valuable in identifying feature relevance, enhancing both model interpretability and credibility. These findings emphasize the importance of hybrid methodologies and interpretable AI techniques in time series forecasting.
 
@@ -44,7 +44,7 @@ python machine_learning.py --type_data family --model xgboost --forecast_days 16
 
 
 ## Deep Learning methods
-The following scripts implement deep learning models for time series forecasting of store sales. Specifically, the following models are considered: RNN (LSTM, GRU) and [STID](https://arxiv.org/abs/2208.05233)
+The following scripts implement deep learning models for time series forecasting of store sales. Specifically, the following models are considered: RNN (LSTM, GRU) and STID.
 
 
 ## Command RNN.py
