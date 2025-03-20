@@ -36,7 +36,54 @@ This script implements various machine learning models for time series forecasti
 -   nfits : Number of fits for auto_arima. (default = 50)
 -   ntrials : Number of trials for optuna (default = 100)
 
+
 ## Example
 ```sh
 python machine_learning.py --type_data family --model xgboost --forecast_days 16 --kaggle False --ntrials 100
+```
 
+
+## Deep Learning methods
+The following scripts implement deep learning models for time series forecasting of store sales. Specifically, the following models are considered: RNN (LSTM, GRU) and [STID](https://arxiv.org/abs/2208.05233)
+
+
+## Command RNN.py
+-   type_data : Type of data to use. Choose between family and store. (default : 'family')
+-   model_type : Choose the deep learning model to use between LSTM and GRU. (default : 'LSTM')
+-   kaggle : If the forecasting is intended for a Kaggle competition. (default = False)
+-   type_output : Specify if the output should be single or multi-output. (default = 'single')
+-   XAI : Set this flag to enable explainability through SHAP. (default = False)
+-   input_length : Length of the input sequence. (default = 30)
+-   horizon : Length of the output sequence to forecast. (default = 16)
+-   num_epochs  : Number of epochs for training. (default = 1000)
+-   early_stop : Set this flag to use early stopping. (default = True)
+-   device : Specify the device to use for training. (default = 'cuda:2')
+
+
+## Example
+```sh
+python RNN.py --type_data store --model_type LSTM --XAI True --horizon 16 --batch_size 32 --num_epochs 1000 --learning_rate 1e-4 --device cuda:2
+```
+
+
+## Command STID.py
+-   type_data : Type of data to use. Choose between family and store. (default : 'family')
+-   STL_check : Set this flag to use STL decompostion. (default : 'True')
+-   kaggle : If the forecasting is intended for a Kaggle competition. (default = False)
+-   type_output : Specify if the output should be single or multi-output. (default = 'single')
+-   XAI : Set this flag to enable explainability through SHAP. (default = False)
+-   input_length : Length of the input sequence. (default = 120)
+-   horizon : Length of the output sequence to forecast. (default = 16)
+-   if_T_i_D : Set this flag to use monthly temporal embedding. (default = True)
+-   if_D_i_W : Set this flag to use weekly temporal embedding. (default = True)
+-   if_node : Set this flag to use spatial embedding. (default =   True)
+-   if_exog : Set this flag to use exogenous features. (default = True)
+-   num_epochs  : Number of epochs for training. (default = 1000)
+-   early_stop : Set this flag to use early stopping. (default = True)
+-   device : Specify the device to use for training. (default = 'cuda:2')
+
+
+## Example
+```sh
+python STID.py --type_data store --STL_check True --input_length 120 --horizon 16 --batch_size 32 --num_epochs 1000 --learning_rate 1e-4 --device cuda:2
+```
