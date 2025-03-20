@@ -1049,7 +1049,7 @@ for sto in train_data.keys():
     if not os.path.exists(model_save_dir):
         os.makedirs(model_save_dir)
     
-    dir_name = f'train_monthly{args.if_T_i_D}_weekly{args.if_D_i_W}_exog{args.if_exog}_node{args.if_node}_STL{args.STL_check}_new'
+    dir_name = f'train_monthly{args.if_T_i_D}_weekly{args.if_D_i_W}_exog{args.if_exog}_node{args.if_node}_STL{args.STL_check}'
     model_save_dir = os.path.join(model_save_dir, dir_name)
     if not os.path.exists(model_save_dir):
         os.makedirs(model_save_dir)
