@@ -14,7 +14,6 @@ The dataset used in this project is publicly available from the Store Sales - Ti
 
 
 ## Requirements
-
 To set up the environment, create a python environment using the provided `environment.yml` file:  
 ```sh
 conda env create -f environment.yml
@@ -27,3 +26,17 @@ The preprocessing and data analysis steps are implemented in the [preprocess.ipy
 
 ## Machine Learning methods
 This script implements various machine learning models for time series forecasting of store sales. It uses models such as ARIMA, SARIMA, SARIMAX, Linear Regression, Random Forest, XGBoost, and VAR. Additionally, it integrates hyperparameter optimization using Optuna.
+
+
+## Command machine_learning.py:
+-   type_data : Type of data to use. Choose between family and store. (default : 'family')
+-   model : Choose the model for forecasting between arima, sarima, sarimax, linear, random_forest, xgboost, var. (default : 'linear')
+-   forecast_days : Number of days to forecast. (default = 16)
+-   kaggle : If the forecasting is intended for a Kaggle competition. (default = False)
+-   nfits : Number of fits for auto_arima. (default = 50)
+-   ntrials : Number of trials for optuna (default = 100)
+
+## Example
+```sh
+python machine_learning.py --type_data family --model xgboost --forecast_days 16 --kaggle False --ntrials 100
+
