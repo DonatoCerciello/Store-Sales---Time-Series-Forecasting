@@ -89,12 +89,12 @@ python STID.py --type_data store --STL_check True --input_length 120 --horizon 1
 ```
 
 ## Citation
-@misc{shao2022spatialtemporalidentitysimpleeffective,
-      title={Spatial-Temporal Identity: A Simple yet Effective Baseline for Multivariate Time Series Forecasting}, 
-      author={Zezhi Shao and Zhao Zhang and Fei Wang and Wei Wei and Yongjun Xu},
-      year={2022},
-      eprint={2208.05233},
-      archivePrefix={arXiv},
-      primaryClass={cs.LG},
-      url={https://arxiv.org/abs/2208.05233}, 
+@misc{shao2022spatialtemporalidentitysimpleeffective, \\
+      title={Spatial-Temporal Identity: A Simple yet Effective Baseline for Multivariate Time Series Forecasting}, \\
+      author={Zezhi Shao and Zhao Zhang and Fei Wang and Wei Wei and Yongjun Xu}, \\
+      year={2022}, \\
+      eprint={2208.05233}, \\
+      archivePrefix={arXiv}, \\
+      primaryClass={cs.LG}, \\
+      url={https://arxiv.org/abs/2208.05233}, \\
 }
